@@ -15,8 +15,8 @@
         <div class="text-3xl font-[Tagesschrift]">NotionLite</div>
         <div class="text-3xl font-[Noto]">{{$name}} 's Dashboard</div>
         <!-- Profile -->
-        <div class="h-10 w-10 hover:cursor-pointer">
-                <x-mdi-account />
+        <div class="h-10 w-10 hover:cursor-pointer" onclick="window.location.href='{{ url('/profile') }}'">
+            <x-mdi-account />
         </div>
     </div>
     
