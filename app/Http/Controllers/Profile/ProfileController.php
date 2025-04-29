@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -20,14 +24,16 @@ class ProfileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(ProfileUpdateRequest $request)
     {
         $userId = Auth::id();
-
         $users = User::all();
         $user = $users->findOrFail($userId);
         $newUser = $request->validated();
-        dd($newUser);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect('/dashboard');
     }
-    public function resetPassword(Request $request) {}
 }

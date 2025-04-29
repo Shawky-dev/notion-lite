@@ -9,6 +9,15 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="w-full max-w-2xl bg-white p-10 rounded-xl shadow-lg space-y-8">
+        @if ($errors->any())
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                    <ul class="list-disc list-inside">
+                        @foreach ($errors->all() as $error)
+                            <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
         
         <h1 class="text-4xl font-bold text-center mb-6">Profile Settings</h1>
 
@@ -34,31 +43,12 @@
             </button>
         </form>
 
-        <hr class="my-6 border-gray-300">
 
         <!-- Update Password -->
-        <form action="/profile/resetpassword" method="POST" class="space-y-6">
-            @csrf
-            @method('PUT')
 
-            <div class="flex flex-col space-y-2">
-                <label for="password" class="text-left font-medium">New Password</label>
-                <input type="password" name="password" id="password"
-                    class="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400">
-            </div>
-
-            <div class="flex flex-col space-y-2">
-                <label for="password_confirmation" class="text-left font-medium">Confirm New Password</label>
-                <input type="password" name="password_confirmation" id="password_confirmation"
-                    class="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-400">
-            </div>
-
-            <button type="submit" class="w-full bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 rounded-xl transition duration-300">
+            <button onclick="window.location.href='/reset-password'" class="w-full bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 rounded-xl transition duration-300">
                 Change Password
             </button>
-        </form>
-
-        <hr class="my-6 border-gray-300">
 
         <!-- Logout -->
         <form action="/logout" method="POST" class="text-center">
