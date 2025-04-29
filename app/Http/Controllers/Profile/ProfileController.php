@@ -19,7 +19,7 @@ class ProfileController extends Controller
     public function create()
     {
         $user = Auth::user();
-        return view('profile.index', ['user' => $user]);
+        return view('profile.profile', ['user' => $user]);
     }
     /**
      * Update the specified resource in storage.

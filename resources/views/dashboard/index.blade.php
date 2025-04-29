@@ -8,9 +8,9 @@
     
     <title>Document</title>
 </head>
-<body class= "p-4">
+<body class= " p-4 bg-[#E1EEBC]">
      <!-- Header -->
-     <div class="flex flex-row justify-between items-center bg-amber-200 rounded-2xl p-3">
+     <div class="flex flex-row justify-between items-center bg-[#90C67C] rounded-2xl p-3">
         <!-- Title -->
         <div class="text-3xl font-[Tagesschrift]">NotionLite</div>
         <div class="text-3xl font-[Noto]">{{$name}} 's Dashboard</div>
@@ -19,10 +19,28 @@
             <x-mdi-account />
         </div>
     </div>
-    
-    <form action="{{ url('/logout') }}" method="POST">
-        @csrf
-        <button type="submit">Logout</button>
-    </form>
+    <div class="mt-4">
+        <h1 class="text-lg">Boards:</h1>
+        {{-- Boards --}}
+        <div class="flex flex-row flex-wrap space-x-3">
+            {{-- Board Template --}}
+            <div class="mt-4 h-30 w-50 flex flex-col-reverse bg-[#FFF1D5] border-[#90C67C] border-3 rounded-2xl ">
+                {{-- Board Title --}}
+                <div class="w-full text-center p-1 border-t-1">
+                    <h1>Board Name</h1>
+                </div>
+                <div class="flex flex-col p-2 text-sm">
+                    <p>Company:</p>
+                    <p>Unfinished-tasks:</p>
+                    <p>Members:</p>
+                </div>
+            </div>
+            {{-- Border Create Button --}}
+            <div class="mt-4 h-30 w-50 flex flex-row justify-center items-center bg-[#90C67C] border-[#90C67C] rounded-2xl text-white text-3xl hover:bg-[#b2cca8] hover:cursor-pointer">
+                +    
+            </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

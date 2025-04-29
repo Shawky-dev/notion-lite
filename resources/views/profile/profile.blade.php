@@ -45,7 +45,6 @@
 
 
         <!-- Update Password -->
-
             <button onclick="window.location.href='/reset-password'" class="w-full bg-amber-400 hover:bg-amber-500 text-white font-bold py-2 rounded-xl transition duration-300">
                 Change Password
             </button>

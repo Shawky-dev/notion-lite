@@ -45,12 +45,17 @@
                 </button>
             </div>
 
-            <div class="text-center mt-4">
-                <a href="/forgot-password" class="text-amber-400 hover:underline text-sm">
-                    Forgot Password?
-                </a>
-            </div>
         </form>
+        <div class="text-center mt-4">
+            <a href="/forgot-password" class="text-amber-400 hover:underline text-sm">
+                Forgot Password?
+            </a>
+        </div>
+        <div class="text-center">
+            <a href="/register" class="text-amber-400 hover:underline text-sm">
+                Create an account!
+            </a>
+        </div>
     </div>
 </body>
 </html>
