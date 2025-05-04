@@ -11,6 +11,13 @@ class Board extends Model
 {
     /** @use HasFactory<\Database\Factories\BoardFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'company',
+    ];
+
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
@@ -19,7 +26,6 @@ class Board extends Model
     }
     public function addUser(User $user, string $role = 'member')
     {
-
         if (!$this->users()->where('user_id', $user->id)->exists()) {
             $this->users()->attach($user->id, [
                 'role' => $role,

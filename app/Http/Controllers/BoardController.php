@@ -6,7 +6,7 @@ use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class BoardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,30 +21,26 @@ class DashboardController extends Controller
      */
     public function create()
     {
-        $user = Auth::user();
-        $userId = $user->id;
-
-
-        $boards = Board::whereHas('users', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })->get();
-        return view('dashboard.index', ['name' => $user->name, 'boards' => $boards]);
+        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function store(Request $request) {}
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $board_id)
     {
-        //
+
+        $board = Board::findOrFail($board_id); // This will 404 if not found
+
+        return view('board.index', [
+            'board_title' => $board->title,
+            'board' => $board
+        ]);
     }
 
     /**

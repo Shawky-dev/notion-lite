@@ -26,14 +26,17 @@
         <!-- Boards -->
         <div class="flex flex-row flex-wrap gap-4">
             @foreach ($boards as $board)
-                <x-board-card 
-                    :title="$board->title"
-                    :company="$board->company" 
-                />  
+            <x-board-card
+                :title="$board->title"
+                :company="$board->company"
+                :id="$board->id"
+            />
             @endforeach
 
             <!-- Board Create Button -->
-            <div class="h-36 w-64 flex flex-row justify-center items-center bg-[#0D9488] border-2 border-[#0D9488] rounded-2xl text-white text-3xl hover:bg-[#2DD4BF] hover:cursor-pointer transition-transform duration-150 ease-in-out hover:-translate-y-1">
+            <div class="h-36 w-64 flex flex-row justify-center items-center bg-[#0D9488] border-2 border-[#0D9488] rounded-2xl text-white text-3xl hover:bg-[#2DD4BF] hover:cursor-pointer transition-transform duration-150 ease-in-out hover:-translate-y-1"
+            onclick="window.location.href='{{ url('/dashboard/create-board') }}'"
+            >
                 +
             </div>
         </div>

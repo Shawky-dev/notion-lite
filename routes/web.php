@@ -5,7 +5,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BoardController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Profile\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 })->middleware('guest');
 
-Route::get('/dashboard', [DashboardController::class, 'create'])->middleware('auth');
 
 Route::get('/register', [RegisterController::class, 'create']);
 Route::post('/register', [RegisterController::class, 'store']);
@@ -33,3 +33,13 @@ Route::post('/forgot-password', [ForgotPasswordController::class, 'store'])->mid
 Route::get('/reset-password', [ResetPasswordController::class, 'create'])->middleware('auth')->name('password.reset');
 
 Route::post('/reset-password', [ResetPasswordController::class, 'update'])->middleware('auth')->name('password.update');
+
+//dashboards
+
+Route::get('/dashboard', [DashboardController::class, 'create'])->middleware('auth')->name('dashboard.index');
+Route::get('/dashboard/create-board', [DashboardController::class, 'showCreateBoard'])->middleware('auth')->name('dashboard.create-board');
+Route::post('/dashboard/create-board', [DashboardController::class, 'createBoard'])->middleware('auth');
+
+//boards
+
+Route::get('/board/{board_id}', [BoardController::class, 'show'])->middleware('auth');
