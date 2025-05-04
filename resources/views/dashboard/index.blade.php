@@ -6,39 +6,35 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    <title>Document</title>
+    <title>NotionLite Dashboard</title>
 </head>
-<body class= " p-4 bg-[#E1EEBC]">
-     <!-- Header -->
-     <div class="flex flex-row justify-between items-center bg-[#90C67C] rounded-2xl p-3">
+<body class="p-4 bg-[#F8F9FA] text-[#1F2937]">
+    <!-- Header -->
+    <div class="flex flex-row justify-between items-center bg-[#0D9488] rounded-2xl p-3 text-white">
         <!-- Title -->
         <div class="text-3xl font-[Tagesschrift]">NotionLite</div>
-        <div class="text-3xl font-[Noto]">{{$name}} 's Dashboard</div>
+        <div class="text-3xl font-[Noto]">{{$name}}'s Dashboard</div>
         <!-- Profile -->
         <div class="h-10 w-10 hover:cursor-pointer" onclick="window.location.href='{{ url('/profile') }}'">
             <x-mdi-account />
         </div>
     </div>
-    <div class="mt-4">
-        <h1 class="text-lg">Boards:</h1>
-        {{-- Boards --}}
-        <div class="flex flex-row flex-wrap space-x-3">
-            {{-- Board Template --}}
-            <div class="mt-4 h-30 w-50 flex flex-col-reverse bg-[#FFF1D5] border-[#90C67C] border-3 rounded-2xl ">
-                {{-- Board Title --}}
-                <div class="w-full text-center p-1 border-t-1">
-                    <h1>Board Name</h1>
-                </div>
-                <div class="flex flex-col p-2 text-sm">
-                    <p>Company:</p>
-                    <p>Unfinished-tasks:</p>
-                    <p>Members:</p>
-                </div>
-            </div>
-            {{-- Border Create Button --}}
-            <div class="mt-4 h-30 w-50 flex flex-row justify-center items-center bg-[#90C67C] border-[#90C67C] rounded-2xl text-white text-3xl hover:bg-[#b2cca8] hover:cursor-pointer">
-                +    
-            </div>
+
+    <div class="py-10">
+        <h1 class="text-2xl mb-4 font-semibold">Boards:</h1>
+
+        <!-- Boards -->
+        <div class="flex flex-row flex-wrap gap-4">
+            @foreach ($boards as $board)
+                <x-board-card 
+                    :title="$board->title"
+                    :company="$board->company" 
+                />  
+            @endforeach
+
+            <!-- Board Create Button -->
+            <div class="h-36 w-64 flex flex-row justify-center items-center bg-[#0D9488] border-2 border-[#0D9488] rounded-2xl text-white text-3xl hover:bg-[#2DD4BF] hover:cursor-pointer transition-transform duration-150 ease-in-out hover:-translate-y-1">
+                +
             </div>
         </div>
     </div>
