@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Profile\ProfileController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,5 +42,11 @@ Route::get('/dashboard/create-board', [DashboardController::class, 'showCreateBo
 Route::post('/dashboard/create-board', [DashboardController::class, 'createBoard'])->middleware('auth');
 
 //boards
+Route::get('/board/{board_id}', [BoardController::class, 'show'])->middleware('auth')->name('board.show');
 
-Route::get('/board/{board_id}', [BoardController::class, 'show'])->middleware('auth');
+
+//Tasks
+
+Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.update-status');
+Route::get('/tasks/create/{board_id}/{section_id}', [TaskController::class, 'showCreateTask'])->name('tasks.create.show');
+Route::post('/tasks/create/{board_id}/{section_id}', [TaskController::class, 'createTask'])->name('tasks.create');
