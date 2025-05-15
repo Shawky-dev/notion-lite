@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'board_id'];
     public function boards()
     {
         return $this->belongsTo(Board::class);

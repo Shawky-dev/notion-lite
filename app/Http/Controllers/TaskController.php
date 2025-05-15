@@ -21,7 +21,6 @@ class TaskController extends Controller
     }
     public function showCreateTask(string $board_id, string $section_id)
     {
-        $user = Auth::user();
         return view('task.create-task', ['board_id' => $board_id, 'section_id' => $section_id]);
     }
     public function createTask(Request $request, string $board_id, string $section_id)

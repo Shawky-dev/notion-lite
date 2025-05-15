@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('status')->default(false);
             $table->unsignedBigInteger('user_id')->default(1);
             $table->foreign('user_id')->references('id')->on('users');
+            $table->boolean('archive')->default(false);
             $table->timestamps();
         });
     }
