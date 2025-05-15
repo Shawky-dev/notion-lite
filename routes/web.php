@@ -52,6 +52,8 @@ Route::get('/tasks/create/{board_id}/{section_id}', [TaskController::class, 'sho
 Route::post('/tasks/create/{board_id}/{section_id}', [TaskController::class, 'createTask'])->name('tasks.create');
 Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.update-status');
 
+Route::get("/tasks/{task_id}", [TaskController::class, 'showTask'])->name("tasks.show");
+Route::get("/tasks/edit/{task_id}", [TaskController::class, 'showEditTask'])->name("task.edit.show");
 //Sections
 Route::get('/sections/create/{board_id}', [SectionController::class, 'showCreateSection'])->name('sections.create.show');
 Route::post('/sections/create/{board_id}', [SectionController::class, 'createSection'])->name('sections.create.store');

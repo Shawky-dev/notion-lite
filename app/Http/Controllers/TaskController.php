@@ -13,7 +13,6 @@ class TaskController extends Controller
     {
         $task = Task::findOrFail($task_id);
 
-        // Set status based on what JavaScript sent (true or false)
         $task->status = filter_var($request->input('is_completed'), FILTER_VALIDATE_BOOLEAN);
         $task->save();
 
@@ -38,5 +37,16 @@ class TaskController extends Controller
         ]);
 
         return redirect('/board/' . $board_id);
+    }
+    public function showTask(string $task_id)
+    {
+        $task = Task::with(['section', 'user'])->findOrFail($task_id);
+        return view('task.show', ['task' => $task]);
+    }
+    public function showEditTask(string $task_id)
+    {
+        $task = Task::with(['section', 'user'])->findOrFail($task_id);
+        $sections = Section::where('board_id', $task->section->board_id)->get();
+        return view('task.edit', ['task' => $task, 'sections' => $sections]);
     }
 }

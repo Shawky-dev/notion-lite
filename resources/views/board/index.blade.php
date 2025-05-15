@@ -46,15 +46,18 @@
                     <!-- Tasks -->
                     <div class="flex flex-col gap-3 overflow-y-auto pr-1 h-sv">
                         @forelse($section->tasks as $task)
-                            <div class="bg-[#E0F2F1] p-3 rounded-lg flex items-start gap-3 shadow-sm hover:cursor-pointer">
+                            <div class="bg-[#E0F2F1] p-3 rounded-lg flex items-start gap-3 shadow-sm hover:cursor-pointer"
+                            onclick="openTask({{ $task->id }}, event)"
+                            >
                                 <input
                                     type="checkbox"
-                                    onchange="toggleTask({{ $task->id }}, this.checked)"
+                                    onclick="event.stopPropagation()"
+                                    onchange="toggleTask({{ $task->id }}, this.checked, event)"
                                     {{ $task->status ? 'checked' : '' }}
                                     class="mt-1 accent-[#0D9488] w-5 h-5"
                                 />
                                 <div class="flex-1">
-                                    <div class="font-medium leading-snug {{ $task->status ? 'line-through text-gray-500' : 'text-gray-800' }}">
+                                    <div id="task-name-{{ $task->id }}" class="font-medium leading-snug {{ $task->status ? 'line-through text-gray-500' : 'text-gray-800' }}">
                                         {{ $task->name }}
                                     </div>
                                     <div class="text-xs text-gray-500 mt-1 italic">
@@ -90,7 +93,30 @@
 
     <!-- Toggle Task JS -->
     <script>
-        function toggleTask(taskId, isChecked) {
+        function openTask(taskId, event) {
+            // Don't navigate if the click was on the checkbox
+            if (event.target.type === 'checkbox') {
+                return; // Just return - the stopPropagation on the checkbox will handle it
+            }
+            window.location.href = '/tasks/' + taskId;
+        }
+
+        function toggleTask(taskId, isChecked, event) {
+            // No need to stop propagation here since we're doing it directly on the checkbox
+            
+            // Get the task name element
+            const taskNameElement = document.getElementById('task-name-' + taskId);
+            
+            // Update UI immediately for better UX
+            if (isChecked) {
+                taskNameElement.classList.add('line-through', 'text-gray-500');
+                taskNameElement.classList.remove('text-gray-800');
+            } else {
+                taskNameElement.classList.remove('line-through', 'text-gray-500');
+                taskNameElement.classList.add('text-gray-800');
+            }
+
+            // Send the update to the server
             fetch(`/tasks/${taskId}/status`, {
                 method: 'PATCH',
                 headers: {
@@ -107,6 +133,15 @@
             .catch(err => {
                 console.error('Update failed:', err);
                 alert('Failed to update task');
+                
+                // Revert UI changes if the API call fails
+                if (isChecked) {
+                    taskNameElement.classList.remove('line-through', 'text-gray-500');
+                    taskNameElement.classList.add('text-gray-800');
+                } else {
+                    taskNameElement.classList.add('line-through', 'text-gray-500');
+                    taskNameElement.classList.remove('text-gray-800');
+                }
             });
         }
     </script>
