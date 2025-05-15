@@ -23,8 +23,8 @@ class User extends Authenticatable implements CanResetPassword
     public function boards(): BelongsToMany
     {
         return $this->belongsToMany(Board::class)
-            ->withPivot('board_user', 'joined_at')
-            ->withTimeStamps();
+            ->withPivot('role', 'joined_at')
+            ->withTimestamps();
     }
 
     /**

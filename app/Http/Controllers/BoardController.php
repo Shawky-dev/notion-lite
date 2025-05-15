@@ -44,6 +44,38 @@ class BoardController extends Controller
     }
 
     /**
+     * Show the form for adding a user to the board.
+     */
+    public function showAddUser(string $board_id)
+    {
+        $board = Board::findOrFail($board_id);
+        $users = \App\Models\User::whereNotIn('id', $board->users->pluck('id'))->get();
+
+        return view('board.add-user', [
+            'board' => $board,
+            'users' => $users
+        ]);
+    }
+
+    /**
+     * Add a user to the board.
+     */
+    public function addUser(Request $request, string $board_id)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'role' => 'required|in:member,admin,owner'
+        ]);
+
+        $board = Board::findOrFail($board_id);
+        $user = \App\Models\User::findOrFail($validated['user_id']);
+
+        $board->addUser($user, $validated['role']);
+
+        return redirect()->route('board.show', $board_id)->with('success', 'User added successfully');
+    }
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)

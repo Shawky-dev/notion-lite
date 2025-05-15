@@ -44,6 +44,8 @@ Route::post('/dashboard/create-board', [DashboardController::class, 'createBoard
 
 //boards
 Route::get('/board/{board_id}', [BoardController::class, 'show'])->middleware('auth')->name('board.show');
+Route::get('/board/{board_id}/add-user', [BoardController::class, 'showAddUser'])->middleware('auth')->name('board.add-user.show');
+Route::post('/board/{board_id}/add-user', [BoardController::class, 'addUser'])->middleware('auth')->name('board.add-user.store');
 
 
 //Tasks
@@ -53,7 +55,11 @@ Route::post('/tasks/create/{board_id}/{section_id}', [TaskController::class, 'cr
 Route::patch('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.update-status');
 
 Route::get("/tasks/{task_id}", [TaskController::class, 'showTask'])->name("tasks.show");
-Route::get("/tasks/edit/{task_id}", [TaskController::class, 'showEditTask'])->name("task.edit.show");
+
+Route::get("/tasks/edit/{task_id}", [TaskController::class, 'showEditTask'])->name("tasks.edit.show");
+Route::put("/tasks/edit/{task_id}", [TaskController::class, 'editTask'])->name('tasks.edit');
+Route::delete("tasks/delete/{task_id}", [TaskController::class, 'deleteTask'])->name('tasks.delete');
+
 //Sections
 Route::get('/sections/create/{board_id}', [SectionController::class, 'showCreateSection'])->name('sections.create.show');
 Route::post('/sections/create/{board_id}', [SectionController::class, 'createSection'])->name('sections.create.store');

@@ -49,4 +49,26 @@ class TaskController extends Controller
         $sections = Section::where('board_id', $task->section->board_id)->get();
         return view('task.edit', ['task' => $task, 'sections' => $sections]);
     }
+    public function editTask(Request $request, string $task_id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            "section_id" => "required|int",
+            'status' => 'required|boolean',
+        ]);
+
+        $task = Task::findOrFail($request->input('task_id'));
+        $task->name = $validated['name'];
+        $task->section_id = $validated['section_id'];
+        $task->status = $validated['status'];
+        $task->save();
+        return redirect('/board/' . $task->section->board_id);
+    }
+    public function deleteTask(string $task_id)
+    {
+        $task = Task::findOrFail($task_id);
+        $board_id = $task->section->board_id;
+        $task->delete();
+        return redirect('/board/' . $board_id);
+    }
 }

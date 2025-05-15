@@ -33,9 +33,12 @@
         @endif
 
         <!-- Form -->
-        <form id="editTaskForm" class="space-y-5">
+        <form id="editTaskForm" action="{{ route('tasks.edit', $task->id) }}" method="POST" class="space-y-5">
             @csrf
             @method('PUT')
+            
+            <!-- Task ID (hidden) -->
+            <input type="hidden" name="task_id" value="{{ $task->id }}">
 
             <!-- Task Name Field -->
             <div class="flex flex-col space-y-2">
@@ -120,22 +123,28 @@
     </div>
 
     <script>
-        document.getElementById('editTaskForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const taskId = {{ $task->id }};
-            
-            // Frontend demo only - normally this would be a real form submission
-            alert('Task updated successfully! (This is just a frontend demo)');
-            window.history.back();
-        });
-        
         function confirmDelete() {
             if (confirm('Are you sure you want to delete this task? This action cannot be undone.')) {
-                // Frontend demo only
-                alert('Task deleted! (This is just a frontend demo)');
-                window.location.href = '{{ url("/board/{$task->section->board_id}") }}';
+                fetch('{{ route('tasks.delete', $task->id) }}', {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    },
+                })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    } else {
+                        // If the controller doesn't redirect but returns JSON
+                        return response.json();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Fallback redirect on error
+                    window.location.href = '/board/{{ $task->section->board_id }}';
+                });
             }
         }
     </script>
